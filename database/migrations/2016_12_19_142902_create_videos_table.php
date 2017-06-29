@@ -19,6 +19,8 @@ class CreateVideosTable extends Migration
             $table->text('description')->nullable();
             $table->boolean('published')->default(true);
             $table->string('url');
+            $table->string('access')->default('free');
+            $table->string('paid_thumbnail')->nullable();
             $table->string('thumbnail')->nullable();
             $table->boolean('allow_comments')->default(true);
             $table->integer('views')->default(0);

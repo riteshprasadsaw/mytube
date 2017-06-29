@@ -17,7 +17,11 @@
   "dependencies": {
     "algoliasearch": "^3.22.2",
     "axios": "^0.15.3",
+    "vee-validate": "^2.0.0-rc.5",
+    "vue-loading-spinner": "^1.0.10",
     "vue-progressbar": "^0.7.1",
-    "vue-router": "^2.3.1"
+    "vue-router": "^2.3.1",
+    "vue-sweetalert": "^0.1.17",
+    "vue-toasted": "^1.0.28"
   }
 }

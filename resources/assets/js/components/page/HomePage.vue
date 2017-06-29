@@ -49,6 +49,7 @@
             });
 
             console.log('Home Component mounted.')
+            
         }
     }
 </script>

@@ -1,6 +1,8 @@
 import Vue from 'vue'
+import VeeValidate from 'vee-validate'
 import Router from 'vue-router'
 
+Vue.use(VeeValidate);
 Vue.use(Router);
 
 import HomePage from '../components/page/HomePage.vue'
@@ -16,7 +18,7 @@ import SearchResultsPage from '../components/page/SearchResultsPage.vue'
 
 
 export default new Router({
-    // mode: 'history', // to enable html5 history api
+     // mode: 'history', // to enable html5 history api
     routes: [
         {
             path: '/',
@@ -35,6 +37,7 @@ export default new Router({
         },
 
         {
+          
             path: '/subscriptionplan',
             name: 'SubscriptionPlanPage',
             component: SubscriptionPlanPage
@@ -60,7 +63,7 @@ export default new Router({
                     next(true);
                 } else {
                     next(false);
-                    alert('Please login to upload a video');
+                    this.$swal('Please login to upload a video');
                 }
             }
         },
@@ -73,7 +76,7 @@ export default new Router({
                     next(true);
                 } else {
                     next(false);
-                    alert('Please login to access your account page.');
+                    this.$swal('Please login to access your account page.');
                 }
             }
         },
@@ -88,7 +91,7 @@ export default new Router({
                     next(true);
                 } else {
                     next(false);
-                    alert('Please login to access your account page.');
+                    // this.$swal('Please login to access your account page.');
                 }
             }
         },

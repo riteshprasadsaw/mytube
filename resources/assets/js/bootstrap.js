@@ -51,3 +51,21 @@ Vue.use(VueProgressBar, {
     failedColor: 'red',
     height: '2px'
 });
+
+
+// import VeeValidate from 'vee-validate'
+// Vue.use(VeeValidate);
+
+import Toasted from 'vue-toasted'
+
+// Vue.use(Toasted);
+Vue.use(Toasted, { 
+	 theme: "primary", 
+	 position: "top-center", 
+	 duration : 7000
+});
+
+import VueSweetAlert from 'vue-sweetalert'
+ 
+Vue.use(VueSweetAlert);
+

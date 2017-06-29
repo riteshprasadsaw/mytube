@@ -15,14 +15,25 @@
 
     <!-- Scripts -->
     <script>
-        window.Laravel = {!! json_encode(['csrfToken' => csrf_token()]) !!};
-
+        window.Laravel = {!! json_encode(['csrfToken' => csrf_token(),
+                        'stripekey' => config('services.stripe.key')
+            ]) !!};
+        
         @if(Auth::check())
             window.Laravel.Auth = {!! json_encode( Auth::user() ) !!};
             window.Laravel.Auth.Videos = {!! json_encode( Auth::user()->videos()->with(['channel', 'category'])->limit(4)->latest()->get() ) !!};
             window.Laravel.Channel = {!! json_encode( Auth::user()->channels()->select('id', 'name', 'logo')->first() ) !!};
         @endif
     </script>
+    <!-- <script src="node_modules/sweetalert2/dist/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="node_modules/sweetalert2/dist/sweetalert2.min.css"> -->
+    
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <!-- <script src="https://js.stripe.com/v2/"></script> -->
+    <script src="https://checkout.stripe.com/checkout.js"></script>
+    
+    
+
 </head>
 <body>
     <div id="app">
@@ -82,7 +93,8 @@
                             </li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                    <span class="glyphicon glyphicon-user"></span> <span class="caret"></span>
+                                    <!-- <span class="glyphicon glyphicon-user"></span> <span class="caret"></span> -->
+                                    <img src="{{Auth::user()->avatar}}" style="width: 32px;height: 32px; position: absolute;top: 10px; left: 10px; border-radius: 50%">
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
@@ -123,49 +135,8 @@
 
     <!-- Scripts -->
     <script src="/js/app.js"></script>
-    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
-    <script type="text/javascript">
+   
 
-        Stripe.setPublishableKey("{{ config('services.stripe.key') }}");
-
-        $(function() {
-            var $form = $('#payment-form');
-            $form.submit(function(event) {
-                // Disable the submit button to prevent repeated clicks:
-                $form.find('.submit').prop('disabled', true);
-
-                // Request a token from Stripe:
-                Stripe.card.createToken($form, stripeResponseHandler);
-
-                // Prevent the form from being submitted:
-                return false;
-            });
-        });
-
-        function stripeResponseHandler(status, response) {
-            // Grab the form:
-            var $form = $('#payment-form');
-
-            if (response.error) { // Problem!
-
-                // Show the errors on the form:
-                $form.find('.payment-errors').text(response.error.message);
-                $form.find('.submit').prop('disabled', false); // Re-enable submission
-
-            } else { // Token was created!
-
-                // Get the token ID:
-                var token = response.id;
-
-                // Insert the token ID into the form so it gets submitted to the server:
-                $form.append($('<input type="hidden" name="stripeToken">').val(token));
-
-                // Submit the form:
-                $form.submit();
-            }
-        };
-    </script>
     
 </body>
 </html>

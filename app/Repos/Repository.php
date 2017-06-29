@@ -172,4 +172,15 @@ class Repository
         $this->model = $model;
         return $this;
     }
+
+
+    public function findSubscriptionVideo($id, $columns = ['*'])
+    {
+        $columns = ['id','title', 'description', 'published','thumbnail', 'description', 'allow_comments', 'views', 'channel_id', 'user_id', 'category_id','created_at', 'updated_at'];
+
+         return $this->model->where('id', '=', $id)->get($columns);
+        //return $this->model->where('id', '=', $id)->select($columns);
+      
+
+   }
 }

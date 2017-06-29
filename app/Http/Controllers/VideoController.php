@@ -16,6 +16,7 @@ class VideoController extends Controller
      * @var Repository
      */
     protected $model;
+    private $private_columns = ['id','title', 'description', 'published','thumbnail', 'description', 'allow_comments', 'views', 'channel_id', 'user_id', 'category_id','created_at', 'updated_at'];
 
     /**
      * VideoController constructor.
@@ -86,16 +87,15 @@ class VideoController extends Controller
      */
     public function show($id, Request $request)
     {
-        $video =  $this->model->with(['channel', 'category'])->findOrFail($id);
-
+         $video =  $this->model->with(['channel', 'category'])->findOrFail($id);
+          
         // check related video requested
         if( $request->has('related') ) {
             $video->related = $this->model->with(['channel'])->inRandomOrder()->limit(16)->get();
         }
-
-        // update view count
-        $video->increment('views');
-
+        
+        // $data=$this->model->findSubscriptionVideo($id);
+        // \Log::info( $data);
         return $video;
     }
 

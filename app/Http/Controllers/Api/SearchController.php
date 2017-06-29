@@ -48,6 +48,7 @@ class SearchController extends Controller
 
             // Using the Laravel Scout syntax to search the products table.
             $video = Video::search($request->get('q'))->get();
+            // $video = Video::where('title',$request->get('q'))->get();
 
             // If there are results return them, if none, return the error message.
             return $video->count() ? $video : $error;

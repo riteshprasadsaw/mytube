@@ -111,6 +111,7 @@
             },
 
             uploadVideo() {
+                
                 let vm = this;
                 vm.loading = true;
 
@@ -121,11 +122,18 @@
                 axios.post('/api/videos', vm.video).then(function (res) {
                     vm.video = {};
                     vm.loading = false;
-                    alert('Video has been uploaded, Go to home page to see it.');
+                    //alert('Video has been uploaded, Go to home page to see it.');
+                   // this.$swal('Video has been uploaded.Go to home page to see it');
                 }).catch(function (error) {
                     console.log(error);
                     vm.loading = false;
                 });
+
+                this.$swal(
+                      'Good job!',
+                      'You clicked the button!',
+                      'success'
+                    );
             },
 
             validateYoutubeUrl() {
@@ -133,7 +141,8 @@
               if ( videoCode ) {
                   this.videoThumb = 'http://img.youtube.com/vi/'+ videoCode +'/mqdefault.jpg';
               } else {
-                  alert('URL is not a valid youtube video url.');
+                  //alert('URL is not a valid youtube video url.');
+                  this.$swal('URL is not a valid youtube video url.');
               }
             },
 

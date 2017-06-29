@@ -4,7 +4,7 @@
                         <div class="form-group">
                             <input name="q" type="search" class="form-control" placeholder="Search" v-model="query" @keyup.enter="searchVideo()">
                         </div>
-                        <button  type="submit" class="btn btn-default btn-search" @click="searchVideo()">
+                        <button  type="submit" class="btn btn-default btn-search" @click.prevent="searchVideo()">
                             <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
                         </button>
           </form> 
@@ -25,6 +25,8 @@
         data() {
             return {
                 query:'',
+                loading: false,
+                error: false,
                 videos: {
                     data: []
                 },
@@ -49,8 +51,19 @@
                     // this.videos=content.hits;
                     
                     //  })
+                     // Clear the error message.
 
-                    axios.get('/api/videos').then((res) => {
+                    if(!this.query){
+                      this.$router.push('/');
+                      return;
+                    }
+                    this.error = '';
+                    // Empty the products array so we can fill it with the new products.
+                    // this.products = [];
+                    // Set the loading property to true, this will display the "Searching..." button.
+                    this.loading = true;
+
+                    axios.get('/api/search?q=' + this.query).then((res) => {
                    
                     this.videos = res.data;
                       // console.log(this.videos);
@@ -60,7 +73,9 @@
                           console.log(err);
                       });
                   
-                   
+                     this.loading = false;
+                      // Clear the query.
+                      this.query = '';
 
                     // this.$eventBus.$emit('searchVideo', this.videos);
                     this.$Progress.finish();

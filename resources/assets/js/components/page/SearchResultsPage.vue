@@ -1,17 +1,47 @@
 <template>
-   
-      <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Search Results for :
-                        </div>
 
-                        <div class="panel-body" >
-                            <video-thumb :list="results.data"></video-thumb>
-                           
-                        </div>
+<div class="container">
+        <div class="row">
+                <div class="col-md-12">
+                  <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        Search Results for :
+                                    </div>
+
+                                    <div class="panel-body" >
+                                        <div class="row">
+                                            <div v-for="video in results"  class="video-grid col-xs-6 col-sm-4 col-md-3">
+                                                <div class="video">
+
+                                                    <div class="thumbnail">
+                                                        <router-link :to="{ name: 'VideoDetailPage', params: { id: video.id, slug: $root.slug(video.title) }}">
+                                                            <img :src="video.thumbnail" :alt="video.title">
+                                                        </router-link>
+                                                    </div>
+
+                                                    <div class="caption">
+                                                        <h3>
+                                                            <router-link :to="{ name: 'VideoDetailPage', params: { id: video.id, slug: $root.slug(video.title) }}">
+                                                                {{ video.title }}
+                                                            </router-link>
+                                                        </h3>
+                                                        <p>
+                                                           <!--  <router-link :to="{ name: 'ChannelPage', params: {id: video.channel_id, slug: $root.slug(video.channel_id)}}">
+                                                                {{ video.channel_id }}
+                                                            </router-link> -->
+                                                            <br>
+                                                            {{ video.views }} views &bull; {{ video.created_at }}</p>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                       
+                                    </div>
+                 </div>
+                </div>             
      </div>
-                 
-    
+    </div>  
 </template>
 
 <script>

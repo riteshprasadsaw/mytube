@@ -7,6 +7,7 @@
 
 require('./bootstrap');
 
+
 /**
  * Passport components
  */
@@ -22,11 +23,19 @@ Vue.component('search', require('./components/Search.vue'));
 // Vue.component('search', require('./components/Search.vue'));
 
 /**
+ * Spinner Components
+ */
+Vue.component('pulse-loader', require('vue-spinner/src/PulseLoader.vue'));
+
+
+/**
  * Vue Router for to work with routes in app
  */
 
 import router from './routes';
 
+// // CommonJS
+// const swal = require('sweetalert2')
 // beforeEach route scroll to top
 router.beforeEach( (to, from, next) => {
     window.scrollTo(0,0);

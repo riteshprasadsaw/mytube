@@ -4,11 +4,36 @@
             <!-- Main content -->
             <div class="col-md-7">
                 <div class="video-player">
-                    <div v-if="youtubeId" class="videoWrapper">
-                        <iframe width="560" height="349" :src="'http://www.youtube.com/embed/' + youtubeId + '?rel=0&hd=1&autoplay=1&showinfo=0'" frameborder="0" allowfullscreen></iframe>
+                    <div v-if="video.access ==='free'">
+                        <div v-if="youtubeId" class="videoWrapper">
+                            <iframe width="560" height="349" :src="'http://www.youtube.com/embed/' + youtubeId + '?rel=0&hd=1&autoplay=1&showinfo=0'" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <div v-if="!youtubeId"  class="video-card">
+                            <img class="img-responsive" :src="videoThumb(video.thumbnail)" alt="">
+                        </div>
                     </div>
-                    <div v-if="!youtubeId"  class="video-card">
-                        <img class="img-responsive" :src="videoThumb(video.thumbnail)" alt="">
+                    <div v-else-if="isSubscribed ==='Subscribed'">
+                        <div v-if="youtubeId" class="videoWrapper">
+                            <iframe width="560" height="349" :src="'http://www.youtube.com/embed/' + youtubeId + '?rel=0&hd=1&autoplay=1&showinfo=0'" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <div v-if="!youtubeId"  class="video-card">
+                            <img class="img-responsive" :src="videoThumb(video.thumbnail)" alt="">
+                        </div>
+                    </div>
+                     <div v-else-if="isSubscribed ==='OnGracePeriod'">
+                        <div v-if="youtubeId" class="videoWrapper">
+                            <iframe width="560" height="349" :src="'http://www.youtube.com/embed/' + youtubeId + '?rel=0&hd=1&autoplay=1&showinfo=0'" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <div v-if="!youtubeId"  class="video-card">
+                            <img class="img-responsive" :src="videoThumb(video.thumbnail)" alt="">
+                        </div>
+                    </div>
+                    <div v-else>
+                        
+                        <div class="video-card">
+                           <router-link :to="{ name: 'SubscriptionPlanPage'}"> <img class="img-responsive" :src="videoThumb(video.thumbnail)" alt="">
+                             </router-link>
+                        </div>
                     </div>
                 </div>
                 <!-- End Video player -->
@@ -198,7 +223,8 @@
               newComment: null,
               loading: false,
               commenting: false,
-              youtubeId: false
+              youtubeId: false,
+              isSubscribed:''
           }
         },
 
@@ -212,7 +238,17 @@
         mounted() {
             this.getVideo();
             this.fetchComments();
-            console.log('Video Details Component mounted.', this.id);
+
+             if(window.Laravel.hasOwnProperty('Auth')) {
+                axios.get('/api/isUserSubscribed').then((res) => {
+
+                this.isSubscribed=res.data.trim();
+                    // alert(this.isSubscribed);
+                }).catch((err) => {
+                    this.$Progress.finish();
+                    console.log(err);
+                });
+            }
         },
 
         methods: {
@@ -233,7 +269,12 @@
             },
 
             videoThumb(thumb) {
+
+                if(this.isSubscribed='Not Subscribed'){
+                    return "/img/SubscriptionOnly.png"
+                }
               return "http://lorempixel.com/660/366/?" + this.video.id
+              // return "/img/SubscriptionOnly.png"
             },
 
             canComment() {
