@@ -18,6 +18,7 @@
     "algoliasearch": "^3.22.2",
     "axios": "^0.15.3",
     "vee-validate": "^2.0.0-rc.5",
+    "venobox": "^1.8.2",
     "vue-loading-spinner": "^1.0.10",
     "vue-progressbar": "^0.7.1",
     "vue-router": "^2.3.1",
