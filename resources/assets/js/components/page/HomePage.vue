@@ -10,12 +10,12 @@
                         <video-thumb :list="videos.data"></video-thumb>
                     </div>
                 </div>
-
+    
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         Recently uploaded
                     </div>
-
+    
                     <div class="panel-body">
                         <video-thumb :list="videos.data"></video-thumb>
                     </div>
@@ -27,29 +27,29 @@
 
 <script>
 
-    export default {
-        data() {
-            return {
-                videos: {
-                    data: []
-                }
+export default {
+    data() {
+        return {
+            videos: {
+                data: []
             }
-        },
-
-        mounted() {
-            this.$Progress.start();
-
-            axios.get('/api/videos').then((res) => {
-                this.$Progress.finish();
-                this.videos = res.data;
-                // console.log(this.videos);
-            }).catch((err) => {
-                this.$Progress.finish();
-                console.log(err);
-            });
-
-            console.log('Home Component mounted.')
-            
         }
+    },
+
+    mounted() {
+        this.$Progress.start();
+
+        axios.get('/api/videos').then((res) => {
+            this.$Progress.finish();
+            this.videos = res.data;
+            // console.log(this.videos);
+        }).catch((err) => {
+            this.$Progress.finish();
+            console.log(err);
+        });
+
+        console.log('Home Component mounted.')
+
     }
+}
 </script>

@@ -4,7 +4,7 @@
             <div class="col-md-10 col-md-offset-1">
                 <div class="panel panel-default">
                     <div class="panel-cover" :style="{ 'background-image': 'url('+ channel.cover +')'}">
-
+    
                         <div class="media">
                             <div class="media-left">
                                 <a href="#">
@@ -21,22 +21,24 @@
                             </div>
                         </div>
                     </div>
-
+    
                     <div class="panel-heading">
                         Recent Videos
                     </div>
-
+    
                     <div class="panel-body">
                         <video-thumb :list="channel.videos.data"></video-thumb>
                     </div>
-
+    
                     <div class="panel-heading">
                         About
                     </div>
-
+    
                     <div class="panel-body">
                         <p>{{ channel.about }}</p>
-                        <p>Author <span class="text-dark">{{ channel.user.name }}</span></p>
+                        <p>Author
+                            <span class="text-dark">{{ channel.user.name }}</span>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -45,39 +47,39 @@
 </template>
 
 <script>
-    export default {
-        props: ['id'],
+export default {
+    props: ['id'],
 
-        data() {
-            return {
-                channel: {
-                    cover: '',
-                    data: [],
-                    videos: { data: [] },
-                    user: {}
-                }
-            }
-        },
-
-        mounted() {
-            this.getChannel();
-            console.log('Component mounted.')
-        },
-
-        methods: {
-            getChannel() {
-                this.$Progress.start();
-
-                axios.get('/api/channels/' + this.id + '?videos=true' ).then((res) => {
-                    this.$Progress.finish();
-                    this.channel = res.data;
-
-                    // change the title of page
-                    window.document.title = this.channel.name;
-                }).catch((err) => {
-                    this.$Progress.finish();
-                });
+    data() {
+        return {
+            channel: {
+                cover: '',
+                data: [],
+                videos: { data: [] },
+                user: {}
             }
         }
+    },
+
+    mounted() {
+        this.getChannel();
+        console.log('Component mounted.')
+    },
+
+    methods: {
+        getChannel() {
+            this.$Progress.start();
+
+            axios.get('/api/channels/' + this.id + '?videos=true').then((res) => {
+                this.$Progress.finish();
+                this.channel = res.data;
+
+                // change the title of page
+                window.document.title = this.channel.name;
+            }).catch((err) => {
+                this.$Progress.finish();
+            });
+        }
     }
+}
 </script>
